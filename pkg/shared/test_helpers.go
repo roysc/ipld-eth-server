@@ -58,31 +58,24 @@ func SetupDB() *sqlx.DB {
 func TearDownDB(db *sqlx.DB) {
 	tx, err := db.Beginx()
 	Expect(err).NotTo(HaveOccurred())
-	_, err = tx.Exec(`DELETE FROM nodes`)
-	Expect(err).NotTo(HaveOccurred())
-	_, err = tx.Exec(`DELETE FROM eth.header_cids`)
-	Expect(err).NotTo(HaveOccurred())
-	_, err = tx.Exec(`DELETE FROM eth.uncle_cids`)
-	Expect(err).NotTo(HaveOccurred())
-	_, err = tx.Exec(`DELETE FROM eth.transaction_cids`)
-	Expect(err).NotTo(HaveOccurred())
-	_, err = tx.Exec(`DELETE FROM eth.receipt_cids`)
-	Expect(err).NotTo(HaveOccurred())
-	_, err = tx.Exec(`DELETE FROM eth.state_cids`)
-	Expect(err).NotTo(HaveOccurred())
-	_, err = tx.Exec(`DELETE FROM eth.storage_cids`)
-	Expect(err).NotTo(HaveOccurred())
-	_, err = tx.Exec(`DELETE FROM eth.state_accounts`)
-	Expect(err).NotTo(HaveOccurred())
-	_, err = tx.Exec(`DELETE FROM eth.access_list_elements`)
-	Expect(err).NotTo(HaveOccurred())
-	_, err = tx.Exec(`DELETE FROM blocks`)
-	Expect(err).NotTo(HaveOccurred())
-	_, err = tx.Exec(`DELETE FROM eth.log_cids`)
-	Expect(err).NotTo(HaveOccurred())
-	_, err = tx.Exec(`DELETE FROM eth_meta.watched_addresses`)
-	Expect(err).NotTo(HaveOccurred())
-
+	statements := []string{
+		`DELETE FROM nodes`,
+		`DELETE FROM eth.header_cids`,
+		`DELETE FROM eth.uncle_cids`,
+		`DELETE FROM eth.transaction_cids`,
+		`DELETE FROM eth.receipt_cids`,
+		`DELETE FROM eth.state_cids`,
+		`DELETE FROM eth.storage_cids`,
+		`DELETE FROM eth.state_accounts`,
+		`DELETE FROM eth.access_list_elements`,
+		`DELETE FROM blocks`,
+		`DELETE FROM eth.log_cids`,
+		`DELETE FROM eth_meta.watched_addresses`,
+	}
+	for _, stm := range statements {
+		_, err = tx.Exec(stm)
+		Expect(err).NotTo(HaveOccurred())
+	}
 	err = tx.Commit()
 	Expect(err).NotTo(HaveOccurred())
 }
