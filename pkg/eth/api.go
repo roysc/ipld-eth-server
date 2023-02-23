@@ -89,6 +89,9 @@ func NewPublicEthAPI(b *Backend, client *rpc.Client, config APIConfig) (*PublicE
 	if config.ProxyOnError && client == nil {
 		return nil, errors.New("ipld-eth-server is configured to forward all calls to proxy node on errors but no proxy node is configured")
 	}
+	if config.StateDiffTimeout == 0 {
+		config.StateDiffTimeout = shared.DefaultStateDiffTimeout
+	}
 	var ethClient *ethclient.Client
 	if client != nil {
 		ethClient = ethclient.NewClient(client)
