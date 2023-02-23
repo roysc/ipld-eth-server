@@ -38,10 +38,10 @@ type CountIncremented struct {
 	BlockNumber int64 `json:"blockNumber"`
 }
 
-const srvUrl = "http://localhost:3000"
+var ContractServerUrl = "http://localhost:3000"
 
 func DeployContract() (*ContractDeployed, error) {
-	res, err := http.Get(fmt.Sprintf("%s/v1/deployContract", srvUrl))
+	res, err := http.Get(fmt.Sprintf("%s/v1/deployContract", ContractServerUrl))
 	if err != nil {
 		return nil, err
 	}
@@ -59,7 +59,7 @@ func DeployContract() (*ContractDeployed, error) {
 }
 
 func DestroyContract(addr string) (*ContractDestroyed, error) {
-	res, err := http.Get(fmt.Sprintf("%s/v1/destroyContract?addr=%s", srvUrl, addr))
+	res, err := http.Get(fmt.Sprintf("%s/v1/destroyContract?addr=%s", ContractServerUrl, addr))
 	if err != nil {
 		return nil, err
 	}
@@ -72,7 +72,7 @@ func DestroyContract(addr string) (*ContractDestroyed, error) {
 }
 
 func SendEth(to string, value string) (*Tx, error) {
-	res, err := http.Get(fmt.Sprintf("%s/v1/sendEth?to=%s&value=%s", srvUrl, to, value))
+	res, err := http.Get(fmt.Sprintf("%s/v1/sendEth?to=%s&value=%s", ContractServerUrl, to, value))
 	if err != nil {
 		return nil, err
 	}
@@ -90,7 +90,7 @@ func SendEth(to string, value string) (*Tx, error) {
 }
 
 func DeploySLVContract() (*ContractDeployed, error) {
-	res, err := http.Get(fmt.Sprintf("%s/v1/deploySLVContract", srvUrl))
+	res, err := http.Get(fmt.Sprintf("%s/v1/deploySLVContract", ContractServerUrl))
 	if err != nil {
 		return nil, err
 	}
@@ -108,7 +108,7 @@ func DeploySLVContract() (*ContractDeployed, error) {
 }
 
 func DestroySLVContract(addr string) (*ContractDestroyed, error) {
-	res, err := http.Get(fmt.Sprintf("%s/v1/destroySLVContract?addr=%s", srvUrl, addr))
+	res, err := http.Get(fmt.Sprintf("%s/v1/destroySLVContract?addr=%s", ContractServerUrl, addr))
 	if err != nil {
 		return nil, err
 	}
@@ -121,7 +121,7 @@ func DestroySLVContract(addr string) (*ContractDestroyed, error) {
 }
 
 func IncrementCount(addr string, count string) (*CountIncremented, error) {
-	res, err := http.Get(fmt.Sprintf("%s/v1/incrementCount%s?addr=%s", srvUrl, count, addr))
+	res, err := http.Get(fmt.Sprintf("%s/v1/incrementCount%s?addr=%s", ContractServerUrl, count, addr))
 	if err != nil {
 		return nil, err
 	}
@@ -138,7 +138,7 @@ func IncrementCount(addr string, count string) (*CountIncremented, error) {
 }
 
 func GetStorageSlotKey(contract string, label string) (*StorageKey, error) {
-	res, err := http.Get(fmt.Sprintf("%s/v1/getStorageKey?contract=%s&label=%s", srvUrl, contract, label))
+	res, err := http.Get(fmt.Sprintf("%s/v1/getStorageKey?contract=%s&label=%s", ContractServerUrl, contract, label))
 	if err != nil {
 		return nil, err
 	}
@@ -169,7 +169,7 @@ func ClearWatchedAddresses(gethRPCClient *rpc.Client) error {
 }
 
 func Create2Contract(contractName string, salt string) (*ContractDeployed, error) {
-	res, err := http.Get(fmt.Sprintf("%s/v1/create2Contract?contract=%s&salt=%s", srvUrl, contractName, salt))
+	res, err := http.Get(fmt.Sprintf("%s/v1/create2Contract?contract=%s&salt=%s", ContractServerUrl, contractName, salt))
 	if err != nil {
 		return nil, err
 	}
