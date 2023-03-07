@@ -1,6 +1,9 @@
 FROM golang:1.18-alpine as builder
 
-RUN apk --update --no-cache add make git g++ linux-headers
+ARG GOPROXY
+ENV GOPROXY=$GOPROXY
+
+RUN apk --update --no-cache add gcc libc-dev
 # DEBUG
 RUN apk add busybox-extras
 
@@ -42,7 +45,6 @@ USER $USER
 # note: using $USER is merged, but not in the stable release yet
 COPY --chown=5000:5000 --from=builder /go/src/github.com/cerc-io/ipld-eth-server/$CONFIG_FILE config.toml
 COPY --chown=5000:5000 --from=builder /go/src/github.com/cerc-io/ipld-eth-server/entrypoint.sh .
-
 
 # keep binaries immutable
 COPY --from=builder /go/src/github.com/cerc-io/ipld-eth-server/ipld-eth-server ipld-eth-server
